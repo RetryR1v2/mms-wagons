@@ -143,6 +143,7 @@ end)
 RegisterNetEvent('mms-wagons:client:sellwagontrue', function()
     RSGCore.Functions.Notify('Kutsche erfolgreich Verkauft!', 'success', 3000)
     DeleteVehicle(spawnedWagon)
+    RemoveBlip(wagonBlip)
     spawnedWagon = nil
 end)
 
@@ -161,6 +162,7 @@ RegisterNetEvent('mms-wagons:client:sellwagonnpc', function()
                         if distance <= 10 then
                             TriggerServerEvent('mms-wagons:server:sellwagon', spawnedWagon)
                             DeleteVehicle(spawnedWagon)
+                            RemoveBlip(wagonBlip)
                             spawnedWagon = nil
                         else
                             RSGCore.Functions.Notify('Die Kutsche ist zu weit Entfernt!', 'error', 3000)
@@ -223,8 +225,9 @@ RegisterNetEvent('mms-wagons:client:spawnwagon', function(model, ownedCid, spawn
     local PlayerData = RSGCore.Functions.GetPlayerData()
     local citizenid = PlayerData.citizenid
     local playerPed = PlayerPedId()
-    local playerCoords = GetEntityCoords(playerPed)
-    local offset = GetOffsetFromEntityInWorldCoords(playerPed, 3.0, 3.0, 0.0)
+    local coords = GetEntityCoords(playerPed)
+    local heading = GetEntityHeading(playerPed)
+    
     RemoveBlip(wagonBlip)
     
     RequestModel(model)
@@ -238,8 +241,13 @@ RegisterNetEvent('mms-wagons:client:spawnwagon', function(model, ownedCid, spawn
         spawnedWagon = nil
     end
     
-    spawnedWagon = CreateVehicle(model, offset.x, offset.y, offset.z, playerCoords.z, true, false, false)
+    spawnedWagon = CreateVehicle(model, coords.x, coords.y, coords.z, heading, true, false, false)
     isSpawned = true
+    SetVehicleOnGroundProperly(spawnedWagon)
+    SetEntityAsMissionEntity(spawnedWagon,true,true)
+    Wait(200)
+    SetPedIntoVehicle(playerPed, spawnedWagon, -1)
+    SetModelAsNoLongerNeeded(model)
     local wagonPos = GetEntityCoords(spawnedWagon)
 
     if citizenid == ownedCid then

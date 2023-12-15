@@ -154,9 +154,9 @@ RegisterServerEvent('mms-wagons:server:sellwagon', function(wagon)
                 Player.Functions.AddMoney('cash', price)
 
                 MySQL.execute('DELETE FROM `player_wagons` WHERE tempwagon = ?', { wagon }, function(rowsChanged)
-                    if rowsChanged > 0 then
+                    if rowsChanged ~= nil then
                     else
-                        --print('No matching rows found.')
+                        print('No matching rows found.')
                     end
                 end)
             end
