@@ -139,8 +139,6 @@ RegisterNetEvent('mms-wagons:client:sellwagonplayer', function()
     })
 
     TriggerServerEvent('mms-wagons:server:tradewagon', info.id, spawnedWagon)
-    DeleteVehicle(spawnedWagon)
-    spawnedWagon = nil
 else
     RSGCore.Functions.Notify('Du hast keine Kutsche gerufen!', 'error', 3000)
 end
@@ -164,6 +162,8 @@ RegisterNetEvent('mms-wagons:client:sellwagonnpc', function()
                     
                         if distance <= 10 then
                             TriggerServerEvent('mms-wagons:server:sellwagon', spawnedWagon)
+                            DeleteVehicle(spawnedWagon)
+                            spawnedWagon = nil
                         else
                             RSGCore.Functions.Notify('Die Kutsche ist zu weit Entfernt!', 'error', 3000)
                         end
