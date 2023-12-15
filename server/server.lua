@@ -41,7 +41,7 @@ RegisterServerEvent('mms-wagons:server:buywagon', function(name, price, model, s
         MySQL.insert('INSERT INTO `player_wagons` (citizenid, wagonid, model, name, storage, weight) VALUES (?, ?, ?, ?, ?, ?)', {
             citizenid, wagonid, model, name, storage, weight
         }, function(id)
-            print(id)
+           -- print(id)
         end)
         
         Player.Functions.RemoveMoney('cash', price)
@@ -85,13 +85,13 @@ RegisterServerEvent('mms-wagons:server:activatewagon', function(data)
     MySQL.update('UPDATE player_wagons SET active = ? WHERE citizenid = ? AND active = ?', {
         newActive, citizenid, currentActive
     }, function(affectedRows)
-        print(affectedRows)
+        --print(affectedRows)
     end)
 
     MySQL.update('UPDATE player_wagons SET active = ? WHERE wagonid = ?', {
         currentActive, data.wagonid
     }, function(affectedRows)
-        print(affectedRows)
+        --print(affectedRows)
     end)
 end)
 
@@ -156,7 +156,7 @@ RegisterServerEvent('mms-wagons:server:sellwagon', function(wagon)
                 MySQL.execute('DELETE FROM `player_wagons` WHERE tempwagon = ?', { wagon }, function(rowsChanged)
                     if rowsChanged > 0 then
                     else
-                        print('No matching rows found.')
+                        --print('No matching rows found.')
                     end
                 end)
             end
@@ -188,17 +188,20 @@ RegisterServerEvent('mms-wagons:server:tradewagon', function(id, wagon)
     local src = source
     local player = RSGCore.Functions.GetPlayer(src)
     local recipient = RSGCore.Functions.GetPlayer(id)
+    if recipient ~= nil then
     local rcid = recipient.PlayerData.citizenid
     local cid = player.PlayerData.citizenid
-
+    
     if rcid ~= nil then
-        MySQL.update('UPDATE player_ranches SET citizenid = ? WHERE citizenid = ? AND tempwagon = ?', {
+        MySQL.update('UPDATE player_wagons SET citizenid = ? WHERE citizenid = ? AND tempwagon = ?', {
             rcid, cid, wagon
         }, function(affectedRows)
-            print(affectedRows)
+            --print(affectedRows)
         end)
+    end
+        TriggerClientEvent('mms-wagons:client:sellwagontrue',src)
     else
-        RSGCore.Functions.Notify(src, 'No player found!', 'error', 3000)
+        TriggerClientEvent('mms-wagons:client:sellwagonfalse',src,id)
     end
 end)
 

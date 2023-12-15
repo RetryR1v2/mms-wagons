@@ -15,7 +15,7 @@ end)
 
 RegisterNetEvent('mms-wagons:client:updatewagonid', function(wagonid, cid)
     ownedCID = cid
-    print('Owned CID: ' .. ownedCID)
+    --print('Owned CID: ' .. ownedCID)
 end)
 
 Citizen.CreateThread(function()
@@ -125,6 +125,7 @@ RegisterNetEvent('mms-wagons:client:viewwagon', function()
 end)
 
 RegisterNetEvent('mms-wagons:client:sellwagonplayer', function()
+    if spawnedWagon ~= nil then
     local info = exports['rsg-input']:ShowInput({
         header = 'Verkaufe Kutsche an Anderen Spieler',
         inputs = {
@@ -140,17 +141,29 @@ RegisterNetEvent('mms-wagons:client:sellwagonplayer', function()
     TriggerServerEvent('mms-wagons:server:tradewagon', info.id, spawnedWagon)
     DeleteVehicle(spawnedWagon)
     spawnedWagon = nil
+else
+    RSGCore.Functions.Notify('Du hast keine Kutsche gerufen!', 'error', 3000)
+end
+end)
+
+RegisterNetEvent('mms-wagons:client:sellwagontrue', function()
+    RSGCore.Functions.Notify('Kutsche erfolgreich Verkauft!', 'success', 3000)
+    DeleteVehicle(spawnedWagon)
+    spawnedWagon = nil
+end)
+
+RegisterNetEvent('mms-wagons:client:sellwagonfalse', function(id)
+    RSGCore.Functions.Notify('Kein Spieler mit ID ' ..id.. ' gefunden!', 'error', 3000)
 end)
 
 RegisterNetEvent('mms-wagons:client:sellwagonnpc', function()
+    if spawnedWagon ~= nil then
     local wagonPos = GetEntityCoords(spawnedWagon)
-                    local distance = GetDistanceBetweenCoords(coords.x, coords.y, coords.z, wagonPos.x, wagonPos.y, wagonPos.z, true)
+                    local distance = GetDistanceBetweenCoords(-1810.46, -557.35, 156.03, wagonPos.x, wagonPos.y, wagonPos.z, true)
 
-                    if spawnedWagon ~= nil then
+                    
                         if distance <= 10 then
                             TriggerServerEvent('mms-wagons:server:sellwagon', spawnedWagon)
-                            DeleteVehicle(spawnedWagon)
-                            spawnedWagon = nil
                         else
                             RSGCore.Functions.Notify('Die Kutsche ist zu weit Entfernt!', 'error', 3000)
                         end
@@ -160,10 +173,11 @@ RegisterNetEvent('mms-wagons:client:sellwagonnpc', function()
 end)
 
 RegisterNetEvent('mms-wagons:client:storewagon', function()
+    if spawnedWagon ~= nil then
     local wagonPos = GetEntityCoords(spawnedWagon)
                     local distance = GetDistanceBetweenCoords(coords.x, coords.y, coords.z, wagonPos.x, wagonPos.y, wagonPos.z, true)
 
-                    if spawnedWagon ~= nil then
+                    
                         if distance <= 10 then
                             DeleteVehicle(spawnedWagon)
                             spawnedWagon = nil
@@ -210,7 +224,7 @@ RegisterNetEvent('mms-wagons:client:spawnwagon', function(model, ownedCid, spawn
     local citizenid = PlayerData.citizenid
     local playerPed = PlayerPedId()
     local playerCoords = GetEntityCoords(playerPed)
-    local offset = GetOffsetFromEntityInWorldCoords(playerPed, 0.0, 10.0, 0.0)
+    local offset = GetOffsetFromEntityInWorldCoords(playerPed, 0.0, 3.0, 0.0)
     RemoveBlip(wagonBlip)
     
     RequestModel(model)
@@ -342,3 +356,12 @@ function HorseInventory()
     })
     TriggerEvent('inventory:client:SetCurrentStash', 'player_' .. wagonid)
 end
+
+
+AddEventHandler("onResourceStop",function (resourceName)
+    if resourceName == GetCurrentResourceName() then
+        DeleteVehicle(spawnedWagon)
+        RemoveBlip(wagonBlip)
+        spawnedWagon = nil
+    end
+end)
