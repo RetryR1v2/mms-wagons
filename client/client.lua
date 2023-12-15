@@ -175,7 +175,7 @@ end)
 RegisterNetEvent('mms-wagons:client:storewagon', function()
     if spawnedWagon ~= nil then
     local wagonPos = GetEntityCoords(spawnedWagon)
-                    local distance = GetDistanceBetweenCoords(coords.x, coords.y, coords.z, wagonPos.x, wagonPos.y, wagonPos.z, true)
+                    local distance = GetDistanceBetweenCoords(-1810.46, -557.35, 156.03, wagonPos.x, wagonPos.y, wagonPos.z, true)
 
                     
                         if distance <= 10 then
