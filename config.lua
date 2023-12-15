@@ -1,19 +1,66 @@
 Config = {}
 
-Config.DealerPos = vector4(-1811.048, -556.9874, 155.98309, 253.00506)
+
+Config.Dealer = {
+{ 
+    DealerPos = vector4(-1811.048, -556.9874, 155.98309, 253.00506),
+    model = 'U_M_M_BwmStablehand_01',
+},
+{ 
+    DealerPos = vector4(-345.01, 807.78, 116.66, 110.40),
+    model = 'U_M_M_BwmStablehand_01',
+},
+{ 
+    DealerPos = vector4(-842.58, -1396.30, 43.57, 98.94),
+    model = 'U_M_M_BwmStablehand_01',
+},
+{ 
+    DealerPos = vector4(1259.28, -1281.60, 75.38, 219.03),
+    model = 'U_M_M_BwmStablehand_01',
+},
+
+-- add more as required
+}
 
 Config.shops = {
     { 
         lable = 'Strawberry Cart Dealer',
         name = 'Cart Dealer Strawberry',
-        coords = vector3(-1810.46, -557.35, 156.03),  --- Maischer Manzanita Post
+        coords = vector3(-1810.46, -557.35, 156.03),  
         showblip = true,
         blipName = 'Cart Dealer Strawberry',
-        blipSprite = 'blip_ambient_loan_shark',
+        blipSprite = 'blip_ambient_coach',
+        blipScale = 4.5
+    },
+    { 
+        lable = 'Valentine Cart Dealer',
+        name = 'Cart Dealer Valentine',
+        coords = vector3(-345.01, 807.78, 116.66),  
+        showblip = true,
+        blipName = 'Cart Dealer Valentine',
+        blipSprite = 'blip_ambient_coach',
+        blipScale = 4.5
+    },
+    { 
+        lable = 'Blackwater Cart Dealer',
+        name = 'Cart Dealer Blackwater',
+        coords = vector3(-842.58, -1396.30, 43.57),  
+        showblip = true,
+        blipName = 'Cart Dealer Blackwater',
+        blipSprite = 'blip_ambient_coach',
+        blipScale = 4.5
+    },
+    { 
+        lable = 'Rhodes Cart Dealer',
+        name = 'Cart Dealer Rhodes',
+        coords = vector3(1259.28, -1281.60, 75.38),  
+        showblip = true,
+        blipName = 'Cart Dealer Rhodes',
+        blipSprite = 'blip_ambient_coach',
         blipScale = 4.5
     },
     
-    -- add more as required
+    -- add more as required-345.01, 807.78, 116.66
 }
 
 Config.wagonid = {

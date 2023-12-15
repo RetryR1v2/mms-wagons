@@ -33,14 +33,14 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
-    local model = 'U_M_M_BwmStablehand_01'
-
+    for shop,v in pairs(Config.Dealer) do
+    local model = v.model
     RequestModel(model)
     while not HasModelLoaded(model) do
         RequestModel(model)
         Wait(1)
     end
-    local coords = Config.DealerPos
+    local coords = v.DealerPos
     local dealer = CreatePed(model, coords.x, coords.y, coords.z - 1.0, coords.w, false, false, 0, 0)
     Citizen.InvokeNative(0x283978A15512B2FE, dealer, true)
     SetEntityCanBeDamaged(dealer, false)
@@ -48,7 +48,7 @@ Citizen.CreateThread(function()
     FreezeEntityPosition(dealer, true)
     SetBlockingOfNonTemporaryEvents(dealer, true)
     Wait(1)
-    
+    end
 ---------------------- Create Dealer Menu --------------
 
 
@@ -65,11 +65,7 @@ Citizen.CreateThread(function()
             Citizen.InvokeNative(0x9CB1A1623062F402, shopmain, v.blipName)
         end
     end
-
-    local dealerBlip = Citizen.InvokeNative(0x554D9D53F696D002, 1664425300, coords.x, coords.y, coords.z)
-    SetBlipSprite(dealerBlip, -1236452613)
-    SetBlipScale(dealerBlip, 0.2)
-    Citizen.InvokeNative(0x9CB1A1623062F402, dealerBlip, 'Wagon Store')
+    
 end)
 
 RegisterNetEvent('mms-wagons:client:shopmenu', function()
@@ -156,8 +152,10 @@ end)
 
 RegisterNetEvent('mms-wagons:client:sellwagonnpc', function()
     if spawnedWagon ~= nil then
+    local playerPed = PlayerPedId()
     local wagonPos = GetEntityCoords(spawnedWagon)
-                    local distance = GetDistanceBetweenCoords(-1810.46, -557.35, 156.03, wagonPos.x, wagonPos.y, wagonPos.z, true)
+    local playerPos = GetEntityCoords(playerPed)
+                    local distance = GetDistanceBetweenCoords(playerPos.x, playerPos.y, playerPos.z, wagonPos.x, wagonPos.y, wagonPos.z, true)
 
                     
                         if distance <= 10 then
@@ -174,14 +172,16 @@ end)
 
 RegisterNetEvent('mms-wagons:client:storewagon', function()
     if spawnedWagon ~= nil then
-    local wagonPos = GetEntityCoords(spawnedWagon)
-                    local distance = GetDistanceBetweenCoords(-1810.46, -557.35, 156.03, wagonPos.x, wagonPos.y, wagonPos.z, true)
+        local playerPed = PlayerPedId()
+        local wagonPos = GetEntityCoords(spawnedWagon)
+        local playerPos = GetEntityCoords(playerPed)
+                        local distance = GetDistanceBetweenCoords(playerPos.x, playerPos.y, playerPos.z, wagonPos.x, wagonPos.y, wagonPos.z, true)
 
                     
                         if distance <= 10 then
                             DeleteVehicle(spawnedWagon)
                             spawnedWagon = nil
-                            RSGCore.Functions.Notify('You stored your wagon!', 'success', 3000)
+                            RSGCore.Functions.Notify('Kutsche Eingeparkt!', 'success', 3000)
                             RemoveBlip(wagonBlip)
                         else
                             RSGCore.Functions.Notify('Die Kutsche ist zu weit Entfernt!', 'error', 3000)
