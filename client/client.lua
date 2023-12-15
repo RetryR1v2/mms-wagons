@@ -224,7 +224,7 @@ RegisterNetEvent('mms-wagons:client:spawnwagon', function(model, ownedCid, spawn
     local citizenid = PlayerData.citizenid
     local playerPed = PlayerPedId()
     local playerCoords = GetEntityCoords(playerPed)
-    local offset = GetOffsetFromEntityInWorldCoords(playerPed, 0.0, 3.0, 0.0)
+    local offset = GetOffsetFromEntityInWorldCoords(playerPed, 3.0, 3.0, 0.0)
     RemoveBlip(wagonBlip)
     
     RequestModel(model)
@@ -268,7 +268,7 @@ function WagonMenu()
     for _, wagons in ipairs(Config.wagonid) do
         table.insert(menuData, {
             header = wagons.name,
-            txt = 'Price: $' .. wagons.price .. ' Space: ' .. wagons.storage,
+            txt = 'Preis: $' .. wagons.price .. ' Platz: ' .. wagons.storage,
             params = {
                 event = 'mms-wagons:client:wagoninfo',
                 isServer = false,
@@ -301,10 +301,10 @@ RegisterNetEvent('mms-wagons:client:wagoninfo', function(data)
     local weight = data.weight
 
     local info = exports['rsg-input']:ShowInput({
-        header = 'Wagon Info',
+        header = 'Kutschen Info',
         inputs = {
             {
-                text = 'Wagon Name',
+                text = 'Kutschen Name',
                 name = 'name',
                 type = 'text',
                 isRequired = true

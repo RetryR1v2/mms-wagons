@@ -47,7 +47,7 @@ RegisterServerEvent('mms-wagons:server:buywagon', function(name, price, model, s
         Player.Functions.RemoveMoney('cash', price)
     else
         -- Here you could add a notification or feedback to the player that they do not have enough money
-        RSGCore.Functions.Notify('You dont have enough money!', 'error')
+        RSGCore.Functions.Notify('Du hast nicht genug Geld!', 'error')
     end
 end)
 
@@ -114,7 +114,7 @@ AddEventHandler('mms-wagons:server:spawnwagon', function()
                 TriggerClientEvent('mms-wagons:client:spawnwagon', src, model, ownedCid, wagonid, storage, weight)
             end
         else
-            RSGCore.Functions.Notify(src, 'You don\'t have any active wagons!', 'error', 3000)
+            RSGCore.Functions.Notify(src, 'Du hast keine Aktive Kutsche!', 'error', 3000)
         end
     end)  
 end)
@@ -161,7 +161,7 @@ RegisterServerEvent('mms-wagons:server:sellwagon', function(wagon)
                 end)
             end
         else
-            RSGCore.Functions.Notify(src, 'You don\'t have any active wagons!', 'error', 3000)
+            RSGCore.Functions.Notify(src, 'Du hast keine Aktive Kutsche!', 'error', 3000)
         end
     end)  
 end)
@@ -179,7 +179,7 @@ RegisterServerEvent('mms-wagons:server:checkownedwagons', function(wagon)
                 TriggerClientEvent('mms-wagons:client:updatewagonid', src, wagonid, cid)
             end
         else
-            RSGCore.Functions.Notify(src, 'You don\'t have any active wagons!', 'error', 3000)
+            RSGCore.Functions.Notify(src, 'Du hast keine Aktive Kutsche!', 'error', 3000)
         end
     end)  
 end)
